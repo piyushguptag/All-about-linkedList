@@ -256,6 +256,30 @@ public class Main
         return temp;
     }
     
+    public static void removeLoop(){
+        listNode fastPtr = head;
+        listNode slowPtr = head;
+        
+        while(fastPtr != null && fastPtr.next!= null){
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            if(slowPtr == fastPtr){
+                removeLoop(slowPtr);
+                return;
+            }
+        }
+    }
+    
+    private static void removeLoop(listNode slowPtr){
+        listNode temp = head;
+        while(slowPtr.next!= temp.next){
+            temp = temp.next;
+            slowPtr = slowPtr.next;
+        }
+        
+        slowPtr.next = null;
+    }
+    
     public static void createloop(){
         listNode first = new listNode(1);
         listNode sec = new listNode(2);
@@ -320,5 +344,8 @@ public class Main
 		System.out.println(containsLoop());
 		listNode strLoop = getStartOfLoop();
 		System.out.println(strLoop.data);
+		
+		removeLoop();
+		print();
 	}
 }
