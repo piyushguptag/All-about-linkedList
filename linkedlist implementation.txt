@@ -1,0 +1,324 @@
+public class Main
+{
+    static public listNode head;
+    
+    private static class listNode{
+        private int data;
+        private listNode next;
+        
+        public listNode(int data){
+            this.data = data;
+            this.next = null;
+        }
+    }
+    
+    static void insertAtbegin(int data){
+        listNode newNode = new listNode(data);
+        newNode.next= head;
+        head = newNode;
+    }
+    
+    static void insert(int value){
+        listNode newNode = new listNode(value);
+        if(head == null){
+            head = newNode;
+            return;
+        }
+        listNode current = head;
+        while(null != current.next){
+            current = current.next;
+        }
+        current.next = newNode;
+            
+    }
+    
+    static void insertAtGivenPos(int data , int pos){
+        listNode node = new listNode(data);
+        if(pos == 1){
+            node.next = head;
+            head = node;
+        }else{
+            listNode prev = head;
+            int count =1;
+            while(count < pos-1){
+                prev = prev.next;
+                count++;
+            }
+            listNode current = prev.next;
+            node.next = current;
+            prev.next = node;
+        }
+    }
+    
+    static void print(){
+        listNode current = head;
+        while(current !=null){
+            System.out.print(current.data + " --> ");
+            current = current.next;
+        }
+        System.out.print("null");
+        System.out.println();
+    }
+    
+    static int length(){
+        if(head == null){
+            return 0;
+        }else{
+            int count =0;
+            listNode current = head;
+            while(current != null){
+                count++;
+                current = current.next;
+            }
+            return count;
+        }
+    }
+    
+    static listNode deleteFirst(){
+        if(head == null){
+            return null;
+        }
+        else{
+            listNode temp = head;
+            head=head.next;
+            temp.next = null;
+            return temp;
+        }
+    }
+    
+    static listNode deleteLast(){
+        if(head == null || head.next == null){
+            return head;
+        }
+        listNode current =head;
+        listNode previous = null;
+        
+        while(current.next != null){
+            previous = current;
+            current = current.next;
+        }
+        previous.next =null;
+        return current;
+    }
+    
+    static void delete(int pos){
+        if(pos == 1){
+            head = head.next;
+        }else{
+            listNode prev = head;
+            int count =1;
+            while(count < pos-1){
+                prev = prev.next;
+                count++;
+            }
+            listNode current = prev.next;
+            prev.next = current.next;
+        }
+    }
+    
+    static boolean search(int key){
+        if(head == null){
+            return false;
+        }
+        listNode current = head;
+        while(current!=null){
+            if(current.data == key){
+                return true;
+            }
+            current = current.next;
+        }
+        
+        return false;
+    }
+    static listNode reverse(listNode head){
+        if(head == null){
+            return head;
+        }
+        listNode current = head;
+        listNode next = null;
+        listNode previous = null;
+        
+        while(current != null){
+            next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+        
+        return previous;
+    }
+    static listNode middle(){
+        if(head==null){
+            return null;
+        }
+        listNode fastPtr = head;
+        listNode slowPtr = head;
+        
+        while(fastPtr != null && fastPtr.next != null){
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+        }
+        
+        return slowPtr;
+    }
+    static listNode getNthNodeFromEnd(int n){
+        if(head == null){
+            return null;
+        }
+        if(n<=0){
+            throw new IllegalArgumentException(n+ " Invalid value");
+        }
+        int count =0;
+        listNode refPtr = head;
+        listNode mainPtr = head;
+
+        while(count<n){
+            if(refPtr == null){
+                throw new IllegalArgumentException(n + ": n is greater than total node in a list");
+            }
+            refPtr = refPtr.next;
+            count++;
+        }
+        while(refPtr != null){
+            mainPtr = mainPtr.next;
+            refPtr = refPtr.next;
+        }
+        return mainPtr;
+    }
+    public static void removeDupli(){
+        listNode current = head;
+        while(current!=null && current.next !=null){
+            if(current.data == current.next.data){
+                current.next = current.next.next;
+            }else{
+                current = current.next;
+            }
+        }
+    }
+    public static void insertSort(int n){
+        listNode newNode = new listNode(n);
+        listNode current = head;
+        listNode temp = null;
+        
+        while(current !=null && current.data < newNode.data){
+            temp = current;
+            current=current.next;
+        }
+        temp.next = newNode;
+        newNode.next = current;
+    }
+    public static void rmvKey(int n){
+        listNode current = head;
+        listNode temp = null;
+        while(current !=null && n!= current.data){
+            temp = current;
+            current= current.next;
+        }
+        if(current == null) return;
+        
+        temp.next = current.next;
+    }
+    public static boolean containsLoop(){
+        listNode fastPtr = head;
+        listNode slowPtr = head;
+        
+        while(fastPtr !=null && fastPtr.next !=null){
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            
+            if(slowPtr == fastPtr){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static listNode getStartOfLoop(){
+        listNode fastPtr =head;
+        listNode slowPtr = head;
+        while(fastPtr != null && fastPtr.next !=null){
+            fastPtr= fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            if(slowPtr == fastPtr){
+                return getPtr(slowPtr);
+            }
+        }
+        
+        return null;
+    }
+    
+    public static listNode getPtr(listNode slowPtr){
+        listNode temp = head;
+        while(temp != slowPtr){
+            temp = temp.next;
+            slowPtr = slowPtr.next;
+        }
+        
+        return temp;
+    }
+    
+    public static void createloop(){
+        listNode first = new listNode(1);
+        listNode sec = new listNode(2);
+        listNode thir = new listNode(3);
+        listNode four = new listNode(4);
+        listNode five = new listNode(5);
+        listNode six = new listNode(6);
+        
+        head = first;
+        first.next = sec;
+        sec.next = thir;
+        thir.next =four;
+        four.next = five;
+        five.next = six;
+        six.next = thir;
+        
+    }
+    public static void main(String[] args) {
+		insert(10);
+		insert(12);
+		insert(14);
+		insert(16);
+		print();
+		insertAtbegin(13);
+		print();
+		System.out.println(length());
+		insertAtGivenPos(5,2);
+		print();
+		deleteFirst();
+		print();
+		insert(6);
+		print();
+		deleteLast();
+		print();
+		delete(3);
+		print();
+		
+		insertAtGivenPos(5,2);
+		print();
+		System.out.println(search(16));
+		
+// 		listNode rev = reverse(head);
+		
+// 		while(rev !=null){
+// 		    System.out.print(rev.data + "-> ");
+// 		    rev = rev.next;
+// 		}
+// 		System.out.println("null");
+		listNode mid = middle();
+		System.out.println(mid.data);
+		
+		listNode nth = getNthNodeFromEnd(1);
+		System.out.println(nth.data);
+		removeDupli();
+		print();
+		insertSort(15);
+		print();
+		rmvKey(15);
+		print();
+		
+		createloop();
+		System.out.println(containsLoop());
+		listNode strLoop = getStartOfLoop();
+		System.out.println(strLoop.data);
+	}
+}
