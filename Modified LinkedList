@@ -322,6 +322,31 @@ public class Main
         return dummie.next;
         
     }
+    public static listNode addTwoList(listNode a , listNode b){
+        listNode dummie = new listNode(0);
+        listNode tail = dummie;
+        
+        int carry = 0;
+        
+        while(a!= null || b!=null){
+            int x = (a != null)?a.data:0;
+            int y = (b != null)?b.data:0;
+            
+            int sum = carry + x + y;
+            carry = sum /10;
+            tail.next = new listNode(sum%10);
+            tail = tail.next;
+            
+            if(a != null) a= a.next;
+            if(b != null) b= b.next;
+        }
+        
+        if(carry > 0){
+            tail.next = new listNode(carry);
+        }
+        
+        return dummie.next;
+    }
     public static void main(String[] args) {
 // 		insert(10);
 // 		insert(12);
@@ -389,5 +414,9 @@ public class Main
         Main sll3 = new Main();
         sll3.head = mergerTwoLl(sll1.head,sll2.head);
         sll3.print();
+	
+	Main sll4 = new Main();
+        sll4.head = addTwoList(sll1.head , sll2.head);
+        sll4.print();
 	}
 }
