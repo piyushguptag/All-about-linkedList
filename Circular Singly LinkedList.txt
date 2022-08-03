@@ -1,0 +1,96 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+    private listNode last;
+    private int length;
+    
+    private class listNode{
+        private int data;
+        private listNode next;
+        
+        public listNode(int data){
+            this.data = data;
+        }
+    }
+    
+    public Main(){
+        last = null;
+        length = 0;
+    }
+    
+    public int length(){
+        return length;
+    }
+    
+    public boolean isEmpty(){
+        return length == 0;
+    }
+    public void insertAtBegin(int n){
+        listNode temp = new listNode(n);
+        if(last == null){
+            last = temp;
+        }else{
+            temp.next = last.next;
+        }
+        last.next = temp;
+        length++;
+    }
+    public void insertAtEnd(int n){
+        listNode newNode = new listNode(n);
+        if(last == null){
+            last = newNode;
+            last.next = newNode;
+        }else{
+            newNode.next = last.next;
+            last.next = newNode;
+            last = newNode;
+        }
+        length++;
+    }
+    public void removeFirstnode(){
+        if(isEmpty()){
+            System.out.println("No Element in list");
+            return;
+        }
+        listNode first = last.next;
+        if(last.next == last){
+            last = null;
+        }else{
+            
+            last.next = first.next;
+        }
+        first.next = null;
+        length--;
+    }
+    public void display(){
+        if(last == null){
+            return;
+        }
+        listNode first = last.next;
+        
+        while(first!= last){
+            System.out.print(first.data + " --> ");
+            first= first.next;
+        }
+        System.out.println(first.data + "--> null");
+        
+    }
+	public static void main(String[] args) {
+		Main csll = new Main();
+		csll.insertAtBegin(1);
+		csll.insertAtBegin(2);
+		csll.insertAtEnd(3);
+		csll.display();
+		System.out.println(csll.length());
+		csll.removeFirstnode();
+		csll.display();
+		System.out.println(csll.length());
+	}
+}
